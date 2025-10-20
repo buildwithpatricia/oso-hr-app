@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oso HR App</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .header h1 {
+            color: #2d3748;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .header p {
+            color: #718096;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .auth-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2d3748;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: white;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #4a5568;
+        }
+
+        .btn-secondary:hover {
+            background: #cbd5e0;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        .nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .nav-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-user span {
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h3 {
+            color: #2d3748;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .request-item {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .request-item.pending {
+            border-left-color: #f6ad55;
+        }
+
+        .request-item.approved {
+            border-left-color: #68d391;
+        }
+
+        .request-item.rejected {
+            border-left-color: #fc8181;
+        }
+
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .request-user {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .request-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-pending {
+            background: #fef5e7;
+            color: #d69e2e;
+        }
+
+        .status-approved {
+            background: #f0fff4;
+            color: #38a169;
+        }
+
+        .status-rejected {
+            background: #fed7d7;
+            color: #e53e3e;
+        }
+
+        .request-dates {
+            color: #718096;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .request-reason {
+            color: #4a5568;
+            font-style: italic;
+        }
+
+        .request-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            border-radius: 8px;
+        }
+
+        .btn-success {
+            background: #68d391;
+            color: white;
+            border: none;
+        }
+
+        .btn-danger {
+            background: #fc8181;
+            color: white;
+            border: none;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .profile-card {
+            background: #f7fafc;
+            border-radius: 12px;
+            padding: 20px;
+            border: 2px solid #e2e8f0;
+        }
+
+        .profile-card h4 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .profile-field {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .profile-field:last-child {
+            border-bottom: none;
+        }
+
+        .profile-label {
+            font-weight: 500;
+            color: #4a5568;
+        }
+
+        .profile-value {
+            color: #2d3748;
+        }
+
+        .sensitive {
+            background: #fef5e7;
+            border-color: #f6ad55;
+        }
+
+        .my-profile-card {
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            border: 2px solid #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+
+        .sensitive-field {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 4px 8px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .sensitive-field:hover {
+            background: #fef5e7;
+        }
+
+        .hidden-value {
+            color: #a0aec0;
+            font-family: monospace;
+            letter-spacing: 2px;
+        }
+
+        .actual-value {
+            color: #2d3748;
+            font-weight: 500;
+        }
+
+        .my-profile-section {
+            margin-bottom: 30px;
+        }
+
+        .my-profile-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .direct-reports-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f0f9ff;
+            border-radius: 12px;
+            border: 1px solid #bae6fd;
+        }
+
+        .other-profiles-section {
+            margin-top: 30px;
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
+        }
+
+        .profile-card h5 {
+            color: #2d3748;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .profile-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .profile-info div {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-info label {
+            font-weight: 500;
+            color: #4a5568;
+            font-size: 0.9rem;
+            margin-bottom: 2px;
+        }
+
+        .profile-info span {
+            color: #2d3748;
+            font-size: 0.95rem;
+        }
+
+
+        .toggle-sensitive {
+            background: #4299e1;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .toggle-sensitive:hover {
+            background: #3182ce;
+        }
+
+        .toggle-sensitive-small {
+            background: #4299e1;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+
+        .toggle-sensitive-small:hover {
+            background: #3182ce;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .error {
+            background: #fed7d7;
+            color: #e53e3e;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .success {
+            background: #f0fff4;
+            color: #38a169;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #718096;
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-buttons {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-users"></i> Auth with Oso: HR App</h1>
+        </div>
+
+        <!-- Authentication Section -->
+        <div id="authSection" class="auth-container">
+            <h2 style="text-align: center; margin-bottom: 30px; color: #2d3748;">Welcome to HR App</h2>
+            
+            <div id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email</label>
+                    <input type="email" id="loginEmail" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password">
+                </div>
+                <button class="btn" id="loginBtn">Login</button>
+                <button class="btn btn-secondary" id="showRegisterBtn">Need an account? Register</button>
+            </div>
+
+            <div id="registerForm" class="hidden">
+                <div class="form-group">
+                    <label for="regEmail">Email</label>
+                    <input type="email" id="regEmail" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password</label>
+                    <input type="password" id="regPassword" placeholder="Enter your password">
+                </div>
+                <div class="form-group">
+                    <label for="regFirstName">First Name</label>
+                    <input type="text" id="regFirstName" placeholder="Enter your first name">
+                </div>
+                <div class="form-group">
+                    <label for="regLastName">Last Name</label>
+                    <input type="text" id="regLastName" placeholder="Enter your last name">
+                </div>
+                <div class="form-group">
+                    <label for="regLocation">Location</label>
+                    <input type="text" id="regLocation" placeholder="Enter your location">
+                </div>
+                <div class="form-group">
+                    <label for="regCompany">Company</label>
+                    <select id="regCompany">
+                        <option value="">Select a company</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="regManager">Manager (Optional)</label>
+                    <select id="regManager">
+                        <option value="">No manager</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="regRole">Role</label>
+                    <select id="regRole">
+                        <option value="employee">Employee</option>
+                        <option value="manager">Manager</option>
+                        <option value="ceo">CEO</option>
+                    </select>
+                </div>
+                <button class="btn" id="registerBtn">Register</button>
+                <button class="btn btn-secondary" id="showLoginBtn">Already have an account? Login</button>
+            </div>
+
+            <div id="message"></div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="dashboard">
+            <div class="nav">
+                <div class="nav-content">
+                    <div class="nav-title">HR Dashboard</div>
+                    <div class="nav-user">
+                        <span id="userName">Welcome, User</span>
+                        <button class="btn btn-secondary" id="logoutBtn">Logout</button>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="nav-btn active" data-section="timeoff">
+                        <i class="fas fa-calendar-alt"></i> Time Off
+                    </button>
+                    <button class="nav-btn" data-section="profiles">
+                        <i class="fas fa-users"></i> Profiles
+                    </button>
+                    <button class="nav-btn" data-section="requests">
+                        <i class="fas fa-clipboard-list"></i> My Requests
+                    </button>
+                    <button class="nav-btn" data-section="approvals" id="approvalsTab" style="display: none;">
+                        <i class="fas fa-check-circle"></i> Pending Approvals
+                    </button>
+                </div>
+            </div>
+
+            <div class="content">
+                <!-- Time Off Section -->
+                <div id="timeoffSection" class="card">
+                    <h3><i class="fas fa-calendar-alt"></i> Time Off Requests</h3>
+                    <div id="timeoffContent">
+                        <div class="loading">Loading time-off requests...</div>
+                    </div>
+                </div>
+
+                <!-- Profiles Section -->
+                <div id="profilesSection" class="card hidden">
+                    <h3><i class="fas fa-users"></i> Employee Profiles</h3>
+                    
+                    <!-- My Profile Section -->
+                    <div class="my-profile-section">
+                        <h4><i class="fas fa-user"></i> My Profile</h4>
+                        <div id="myProfileContent">
+                            <div class="loading">Loading your profile...</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Direct Reports Section (for managers) -->
+                    <div id="directReportsSection" class="direct-reports-section hidden">
+                        <h4><i class="fas fa-users-cog"></i> Direct Reports</h4>
+                        <div id="directReportsContent">
+                            <div class="loading">Loading direct reports...</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Other Profiles Section -->
+                    <div class="other-profiles-section">
+                        <h4><i class="fas fa-users"></i> Other Employees</h4>
+                        <div id="profilesContent">
+                            <div class="loading">Loading profiles...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- My Requests Section -->
+                <div id="requestsSection" class="card hidden">
+                    <h3><i class="fas fa-clipboard-list"></i> My Time Off Requests</h3>
+                    <div style="margin-bottom: 20px;">
+                        <button class="btn" id="requestTimeOffBtn">
+                            <i class="fas fa-plus"></i> Request Time Off
+                        </button>
+                    </div>
+                    <div id="requestsContent">
+                        <div class="loading">Loading your requests...</div>
+                    </div>
+                </div>
+
+                <!-- Pending Approvals Section -->
+                <div id="approvalsSection" class="card hidden">
+                    <h3><i class="fas fa-check-circle"></i> Pending Approvals</h3>
+                    <div id="approvalsContent">
+                        <div class="loading">Loading pending approvals...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
