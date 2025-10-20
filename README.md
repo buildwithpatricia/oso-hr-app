@@ -89,15 +89,6 @@ The application comes with pre-configured sample accounts:
 
 This application can be deployed to various cloud platforms. Here are the recommended options:
 
-### Vercel (Recommended)
-1. Push your code to GitHub
-2. Connect your GitHub repo to [Vercel](https://vercel.com)
-3. Set environment variables in Vercel dashboard:
-   - `OSO_AUTH_API_KEY`: Your Oso Cloud API key
-   - `JWT_SECRET`: A strong random string
-   - `NODE_ENV`: `production`
-4. Deploy!
-
 ### Railway
 1. Push your code to GitHub
 2. Connect your GitHub repo to [Railway](https://railway.app)
