@@ -2,6 +2,16 @@
 
 A B2B HR application demonstrating advanced authorization using Oso Cloud. This application showcases role-based access control, managerial hierarchy, and field-level permissions.
 
+Test out the app live here: https://oso-hr-app-production.up.railway.app/
+You can use the following credentials to log in. The password for every account is 'oso123'
+
+Employee (no direct reports) - employee1@acme.com
+Manager 1 - manager1@acme.com
+Manager 2 - manager2@acme.com
+CEO - ceo@acme.com
+Employee from different company - employee@techstart.com
+CEO from different company - ceo@techstart.com
+
 ## Features
 
 - **User Authentication**: Login and registration system
