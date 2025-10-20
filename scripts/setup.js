@@ -7,6 +7,12 @@ async function setupDatabase() {
     console.log('Setting up database with sample data...');
     
     try {
+        // Check if database already has data
+        const existingUsers = await User.findByCompany(1); // Check Acme Corp
+        if (existingUsers && existingUsers.length > 0) {
+            console.log('Database already initialized, skipping setup...');
+            return;
+        }
         // Create companies
         const acmeCorp = await Company.create({ name: 'Acme Corporation' });
         const techStartup = await Company.create({ name: 'TechStart Inc.' });
